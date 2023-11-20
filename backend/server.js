@@ -19,6 +19,12 @@ app.use(express.json());
 app.use("/", userRouter)
 app.use("/", playersRouter)
 
+// Express route to fetch and store top players' rating history
+app.get('/fetchAndStoreTopPlayersRatingHistory', async (req, res, next) => {
+  await fetchAndStoreTopPlayersRatingHistory();
+  res.send('Rating history for top players fetched and stored.');
+});
+
 app.use(isError)
 
 

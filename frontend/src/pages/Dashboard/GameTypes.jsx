@@ -26,7 +26,7 @@ function GameTypes() {
   }, [currentPerfType]);
 
   return (
-    <div className="container d-flex flex-row justify-content-center align-items-center gap-4 overflow-auto" style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+    <div className="d-flex flex-column justify-content-center align-items-center text-start gap-4 ">
       {gameTypes.map((item) => (
         <button
           key={item}
