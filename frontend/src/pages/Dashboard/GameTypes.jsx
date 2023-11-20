@@ -4,7 +4,7 @@ import { Details } from "../../Redux/Actions";
 
 function GameTypes() {
   const dispatch = useDispatch();
-  const GameTypes = [
+  const gameTypes = [
     "ultraBullet",
     "bullet",
     "blitz",
@@ -19,38 +19,24 @@ function GameTypes() {
     "racingKings",
     "threeCheck",
   ];
-  const [currentPerfType, setCurrentPerfType] = useState(GameTypes[0]);
+  const [currentPerfType, setCurrentPerfType] = useState(gameTypes[0]);
 
   useEffect(() => {
     dispatch(Details(currentPerfType));
   }, [currentPerfType]);
 
-  const styles = {
-    container: {
-      maxHeight: '200px',
-      overflowY: 'scroll',
-    },
-    button: {
-      base: "btn px-2 text-uppercase font-weight-bold text-white shadow py-1",
-      success: "bg-success",
-      info: "bg-dark",
-    },
-  };
-
   return (
-    <>
-      <div style={styles.container} className="container d-flex flex-row justify-content-center align-items-center gap-4 overflow-auto">
-        {GameTypes.map((item) => (
-          <button
-            key={item}
-            onClick={() => setCurrentPerfType(item)}
-            className={`${styles.button.base} ${item === currentPerfType ? styles.button.success : styles.button.info}`}
-          >
-            {item}
-          </button>
-        ))}
-      </div>
-    </>
+    <div className="container d-flex flex-row justify-content-center align-items-center gap-4 overflow-auto" style={{ maxHeight: '200px', overflowY: 'scroll' }}>
+      {gameTypes.map((item) => (
+        <button
+          key={item}
+          onClick={() => setCurrentPerfType(item)}
+          className={`btn px-2 text-uppercase font-weight-bold text-white shadow py-1 ${item === currentPerfType ? 'bg-success' : 'bg-dark'}`}
+        >
+          {item}
+        </button>
+      ))}
+    </div>
   );
 }
 
