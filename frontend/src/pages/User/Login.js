@@ -1,16 +1,17 @@
 import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import axios from 'axios';
+import axios from "axios";
 
 function Login() {
   const navigate = useNavigate();
-  const [errorMessages, setErrorMessages] = useState(false);
+  const [isErrorMessages, setErrorMessages] = useState(false);
+  const [isEmail, setEmail] = useState(false)
+  const [isPassword, setPassword] = useState(false);
 
-  const [formData, setFormData] = useState({    
+  const [formData, setFormData] = useState({
     email: "",
     password: "",
   });
-
 
   //handling input
   const handleChange = (e) => {
@@ -21,30 +22,42 @@ function Login() {
     }));
   }
 
-
-//handling submit
+  //handling submit
   const handleSubmit = async (e) => {
     e.preventDefault()
 
-    let response = await axios.post("http://localhost:5000/login", {     
-      email: formData.email,
-      password: formData.password,
-    });
-
-    if (response.status === 501) {
+    if (!formData.email || !formData.password) {
       setErrorMessages(true);
       return;
     }
+    setErrorMessages(false);
 
-    if (response.status === 200) {
-      alert("Login  success");
-      console.log(response.data.token);
-      window.localStorage.setItem("token", response.data.token);
-      navigate("/");
-    } else {
-      alert("Try again");
+    if (formData.password.length < 3) {
+      setPassword(true)
+      return
     }
-  };
+    setPassword(false);
+
+    try {
+      let response = await axios.post("http://localhost:5000/auth/login", {
+        email: formData.email,
+        password: formData.password,
+      })
+console.log(response.data)
+      if (response.status === 200) {
+        alert("Login  success");
+        window.localStorage.setItem("token", response.data.token);
+        navigate("/");
+      } else if (response.status === 203) {
+         setPassword(true)
+        return
+      }else{
+       setEmail(true)
+      }
+    } catch (error) {
+      console.log(error)
+    }
+  }
 
   return (
     <section className="container-fluid">
@@ -54,34 +67,43 @@ function Login() {
             <div className="card-body p-4 text-center">
               <h5 className="fw-bold mb-4">Login</h5>
               <form onSubmit={handleSubmit}>
-                                <div className="mb-3">
-                  <div className="form-outline">
-                    <input
-                      type="email"
-                      id="form3Example3"
-                      className="form-control"
-                      name="email"
-                      value={formData.email}
-                      onChange={handleChange}
-                      placeholder="Email address"
-                    />
+                <div>
+                  <div className="mb-3">
+                    <div className="form-outline">
+                      <input
+                        type="email"
+                        id="form3Example3"
+                        className="form-control"
+                        name="email"
+                        value={formData.email}
+                        onChange={handleChange}
+                        placeholder="Email address"
+                      />
+                    </div>{
+                      isEmail?(  <p className="text-danger">User not found!</p>
+                      ):(" ")
+                    }
+                   
+                  </div>
+
+                  <div className="mb-3">
+                    <div className="form-outline">
+                      <input
+                        type="password"
+                        id="form3Example4"
+                        className="form-control"
+                        name="password"
+                        value={formData.password}
+                        onChange={handleChange}
+                        placeholder="Password"
+                      />
+                    </div>
+                    {isPassword ? <p className="text-danger">Invalid!</p> : " "}
                   </div>
                 </div>
-
-                <div className="mb-3">
-                  <div className="form-outline">
-                    <input
-                      type="password"
-                      id="form3Example4"
-                      className="form-control"
-                      name="password"
-                      value={formData.password}
-                      onChange={handleChange}
-                      placeholder="Password"
-                    />
-                  </div>
-                </div>
-
+                {isErrorMessages && (
+                  <p className="text-danger">All fields are required</p>
+                )}{" "}
                 <button
                   type="submit"
                   className="btn btn-success btn-block mb-3"

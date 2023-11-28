@@ -1,8 +1,8 @@
 const isError=(status,message)=>{
-    const error = new Error()
-    error.message = message;
-    error.status = status;
-    return error
+    const err = new Error()
+    err.message = message;
+    err.status = status;
+    return err
 }
 
 module.exports = {isError}

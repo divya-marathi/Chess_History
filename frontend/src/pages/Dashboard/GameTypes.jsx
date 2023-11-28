@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
 import { Details } from "../../Redux/Actions";
+import './GameTypes.css';
+
 
 function GameTypes() {
   const dispatch = useDispatch();
@@ -19,14 +21,14 @@ function GameTypes() {
     "racingKings",
     "threeCheck",
   ];
-  const [currentPerfType, setCurrentPerfType] = useState(gameTypes[0]);
+  const [currentPerfType, setCurrentPerfType] = useState(gameTypes[""]);
 
   useEffect(() => {
     dispatch(Details(currentPerfType));
   }, [currentPerfType]);
 
   return (
-    <div className="d-flex flex-column justify-content-center align-items-center text-start gap-4 ">
+    <div className="d-flex  justify-content-center align-items-center text-start gap-4 overflow-auto" style={{ width: "100%", maxHeight: "80vh" }}>
       {gameTypes.map((item) => (
         <button
           key={item}

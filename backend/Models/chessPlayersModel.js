@@ -5,10 +5,12 @@ const ChessPlayerSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  ratingHistory: {
-    type: [Number], 
+  ratingHistory: [{
+    type: String,
     required: true,
-  },
+  }]
+   
+  
 })
 
 const ChessPlayerModel = mongoose.model('ChessPlayer', ChessPlayerSchema);

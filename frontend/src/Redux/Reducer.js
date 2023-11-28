@@ -6,7 +6,7 @@ export const Reducer =(state,action)=>{
        return action.text;
        
     } else {
-      return "ultraBullet";
+      return null;
     }
    
    }

@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 import { Link, Outlet, useNavigate } from "react-router-dom";
 
 function Navigator() {
-  const [title, setTitle] = useState();
   const navigate = useNavigate();
   let token = localStorage.getItem("token");
   const [isLogged, setIslogged] = useState(true);
@@ -28,22 +27,18 @@ function Navigator() {
           </Link>
 
           {isLogged ? (
-            <Link
-              to="/"
-              onClick={logout}
-              className="navbar-item btn btn-outline-success bg-white my-2 my-sm-0 text-decoration-none"
-            >
-              Logout
+            <Link to="/" onClick={logout}>
+              <button className="navbar-item btn btn-outline-success bg-white  ">
+                Logout
+              </button>
             </Link>
           ) : (
-            <button
-              className="btn btn-outline-success bg-white my-2 my-sm-0 text-decoration-none"
-              type="submit"
+            <Link
+              to="/signin"
+              className="navbar-item btn btn-outline-success bg-white "
             >
-              <Link to="/signin" className="navbar-item">
-                Sign in
-              </Link>
-            </button>
+              Sign Up
+            </Link>
           )}
         </nav>
         <Outlet />
